@@ -1,0 +1,28 @@
+.single-blog-item {
+    border: 1px solid rgba($color: $background-dark-1, $alpha: .2);
+
+    @include respond('tab') {
+        margin-bottom: 20px;
+    }
+
+    &:hover .blog-img img {
+        transform: scale(1.1);
+    }
+
+    .blog-img {
+        overflow: hidden;
+
+        img {
+            transition: all 3s cubic-bezier(1,1,0,0);
+            width: 100%;
+        }
+    }
+
+    .blog-text {
+        padding: 20px;
+
+        p {
+            margin-bottom: 30px;
+        }
+    }
+}
