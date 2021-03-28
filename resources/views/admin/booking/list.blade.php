@@ -13,6 +13,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.booking.list', 'pending') }}">
+                            <i class="material-icons">pending</i> Pending
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.booking.list', 'active') }}">
                             <i class="material-icons">toc</i> Active
                         </a>

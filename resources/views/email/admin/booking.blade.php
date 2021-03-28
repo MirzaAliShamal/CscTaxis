@@ -46,7 +46,7 @@
           <td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0;  padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 24px; font-weight: bold; line-height: 130%;
             padding-top: 5px;
             font-family: sans-serif;" class="header">
-            Welcome to Csc Taxis!
+            Csc Taxis!
           </td>
         </tr>
         <tr>
@@ -67,7 +67,7 @@
           <td align="left" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 17px; font-weight: 400; line-height: 160%;
             padding-top: 15px;
             font-family: sans-serif; font-style: italic;" class="paragraph">
-            Dear {{ $book->name }},
+            Dear Admin,
           </td>
         </tr>
 
@@ -83,7 +83,7 @@
             <td align="left" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 17px; font-weight: 400; line-height: 160%;
               padding-top: 10px;
               font-family: sans-serif; justify-content: center;" class="paragraph">
-              Your booking has been cancelled by Csc Taxis Team. In result, we refund all your Money. Please go to our platform to find another suitable ride.
+              You recevied a booking request from {{ $book->name }}. Please check the dashboard to either accept or decline it.
             </td>
         </tr>
 
@@ -132,8 +132,8 @@
                     bgcolor="#FBB650">
                     <a target="_blank" style="text-decoration: none;
                       color: #FFFFFF; font-family: sans-serif; font-size: 17px; font-weight: bold; line-height: 120%;"
-                      href="{{ route('get.quote') }}">
-                      Get a Quote
+                      href="{{ route('admin.booking.list') }}">
+                      Go to Bookings
                     </a>
                   </td>
                 </tr>

@@ -252,9 +252,6 @@ The above copyright notice and this permission notice shall be included in all c
                 "select": {
                     'style': 'multi'
                 },
-                "order": [
-                    [1, 'asc']
-                ],
                 responsive: true,
                 language: {
                     search: "_INPUT_",

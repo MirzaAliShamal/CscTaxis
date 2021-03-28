@@ -1,6 +1,6 @@
 @extends('layouts.front')
 @section('content')
-<section class="hero-area" style="background-image: url({{ asset('theme/images/home/bg.jpg') }})">
+<section class="hero-area" style="background-image: url({{ asset('theme/images/home/bg-another.jpeg') }})">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -23,370 +23,349 @@
         <form action="{{ route('book') }}" class="form-booking" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="fare" id="fare" value="">
-            <div class="booking-form">
-                <div class="row">
-                    <div class="col-12 text-center">
-                        <h3 class="mb-5">Get a Quote</h3>
-                    </div>
-                    <div class="col-lg-12 d-none">
-                        <div class="ride-map-area">
-                            <div id="ride-map"></div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="distance-error">
-                            <span class="error">
-                                <strong></strong>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="form-group mb-0">
-                            <div class="destination">
-                                <label for="">From</label>
-                                <i class="fas fa-map-marker-alt"></i>
-                                <input type="text" name="from_location" placeholder="Select Desgination" id="spoint" value="" class="form-control validate" autocomplete="off">
-                                <input type="hidden" id="slat" name="slat" checkHide="true" required="">
-                                <input type="hidden" id="slon" name="slon" checkHide="true" required="">
-                            </div>
-
-                            <span class="error">
-                                <strong></strong>
-                            </span>
-                        </div>
-                        <div class="dropdown position-relative">
-                            <p>Choose <a href="javascript:;" class="dropdown-link" data-target="airport-pickup">airport <i class="fas fa-chevron-down" style="font-size: 10px;"></i></a> or <a href="javascript:;" class="dropdown-link" data-target="cruise-pickup">cruise <i class="fas fa-chevron-down" style="font-size: 10px;"></i></a> terminal</p>
-                            <div class="menu-dropdown pickup" id="airport-pickup">
-                                <ul>
-                                    @foreach (airportTerminal() as $item)
-                                        <li data-lat="{{ $item->lat }}" data-long="{{ $item->long }}" data-type="1">{{ $item->name }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            <div class="menu-dropdown pickup" id="cruise-pickup">
-                                <ul>
-                                    @foreach (cruiseTerminal() as $item)
-                                        <li data-lat="{{ $item->lat }}" data-long="{{ $item->long }}" data-type="2">{{ $item->name }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="extra-fields airport-extra" style="display: none;">
-                            <div class="form-group">
-                                <label for="flight_no">Flight Number</label>
-                                <input type="text" class="form-control" name="flight_no" id="flight_no" autocomplete="off">
-                                <span class="error">
-                                    <strong></strong>
-                                </span>
-                            </div>
-                            <div class="form-group">
-                                <label for="arrival_from">Arrival From</label>
-                                <input type="text" class="form-control" name="arrival_from" id="arrival_from" autocomplete="off">
-                                <span class="error">
-                                    <strong></strong>
-                                </span>
-                            </div>
-                            <div class="form-group">
-                                <label for="airline">Airline</label>
-                                <input type="text" class="form-control" name="airline" id="airline" autocomplete="off">
-                                <span class="error">
-                                    <strong></strong>
-                                </span>
-                            </div>
-                            <div class="form-group">
-                                <label for="meeting_point">Meeting Point</label>
-                                <select name="meeting_point" id="meeting_point" class="form-control">
-                                    <option value="" selected>Select an option</option>
-                                    <option value="at arrivals with a name board">at arrivals with a name board</option>
-                                </select>
-                                <span class="error">
-                                    <strong></strong>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="form-group extra-fields cruise-extra" style="display: none;">
-                            <label for="ship_name">Ship Name</label>
-                            <input type="text" class="form-control" name="ship_name" id="ship_name" value="" autocomplete="off">
-                            <span class="error">
-                                <strong></strong>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="form-group mb-0">
-                            <div class="destination">
-                                <label for="">Where to?</label>
-                                <i class="fas fa-map-marker-alt"></i>
-                                <input type="text" name="to_location" placeholder="Select Desgination" id="epoint" class="form-control validate" autocomplete="off">
-                                <input type="hidden" id="elat" name="elat" checkHide="true" required="">
-                                <input type="hidden" id="elon" name="elon" checkHide="true" required="">
-                            </div>
-
-                            <span class="error">
-                                <strong></strong>
-                            </span>
-                        </div>
-                        <div class="dropdown position-relative">
-                            <p>Choose <a href="javascript:;" class="dropdown-link" data-target="airport-destination">airport <i class="fas fa-chevron-down" style="font-size: 10px;"></i></a> or <a href="javascript:;" class="dropdown-link" data-target="cruise-destination">cruise <i class="fas fa-chevron-down" style="font-size: 10px;"></i></a> terminal</p>
-                            <div class="menu-dropdown dropoff" id="airport-destination">
-                                <ul>
-                                    @foreach (airportTerminal() as $item)
-                                        <li data-lat="{{ $item->lat }}" data-long="{{ $item->long }}">{{ $item->name }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            <div class="menu-dropdown dropoff" id="cruise-destination">
-                                <ul>
-                                    @foreach (cruiseTerminal() as $item)
-                                        <li data-lat="{{ $item->lat }}" data-long="{{ $item->long }}">{{ $item->name }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 col-md-6 col-sm-12 mt-3">
-                        <h2>Direction</h2>
-                        <label for="direction">Select direction</label>
-                        <div class="form-group mb-4">
-                            <div class="direction-options mb-0">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="direction" id="direction-oneway" value="1" checked>
-                                    <label class="form-check-label" for="direction-oneway"><i class="fas fa-long-arrow-alt-right"></i> One Way</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="direction" id="direction-twoway" value="2">
-                                    <label class="form-check-label" for="direction-twoway"><i class="fas fa-exchange-alt"></i> Two Way</label>
-                                </div>
-                            </div>
-                            <div>
-                                <span class="error">
-                                    <strong></strong>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 col-md-6 col-sm-12 mt-3">
-                        <h2>Date</h2>
-                        <div class="date-error">
-                            <span class="error">
-                                <strong></strong>
-                            </span>
-                        </div>
-                        <div class="pickup-block">
-                            <label for="date-time">Pickup Date & Time</label>
-                            <div class="form-group row">
-                                <div class="col-6">
-                                    <input type="text" class="form-control datepicker" id="pickup_date" name="pickup_date" value="{{ now()->format('m/d/Y') }}" autocomplete="off" readonly>
-                                    <span class="error">
-                                        <strong></strong>
-                                    </span>
-                                </div>
-                                <div class="col-6">
-                                    <input type="text" class="form-control timepicker" id="pickup_time" name="pickup_time" autocomplete="off" readonly>
-                                    <span class="error">
-                                        <strong></strong>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="return-block" style="display: none;">
-                            <label for="date-time">Return Date & Time</label>
-                            <div class="form-group row">
-                                <div class="col-6">
-                                    <input type="text" class="form-control datepicker" id="return_date" name="return_date" value="{{ now()->format('m/d/Y') }}" autocomplete="off" readonly>
-                                    <span class="error">
-                                        <strong></strong>
-                                    </span>
-                                </div>
-                                <div class="col-6">
-                                    <input type="text" class="form-control timepicker" id="return_time" name="return_time" autocomplete="off" readonly>
-                                    <span class="error">
-                                        <strong></strong>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-
-                        <div class="select-car-wrapper mb-5">
-                            <h2>Services</h2>
-                            <div class="selected-car">
-                                <div class="form-group row car-options">
-                                    <div class="col-md-4">
-                                        <div class="form-check form-check-inline text-left align-items-start">
-                                            <input class="form-check-input" type="radio" name="vehicle_type" id="alto" value="Saloon">
-                                            <label class="form-check-label" for="alto">
-                                                <img src="{{ asset('theme/images/dashboard/car-2.png') }}" alt="Car">
-                                            </label>
-                                            <div class="car-details">
-                                                <h4>Saloon</h4>
-                                                <small>(4 people + 2 large cases + 2 small cases)</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-check form-check-inline text-left align-items-start">
-                                            <input class="form-check-input" type="radio" name="vehicle_type" id="luxury" value="Estate">
-                                            <label class="form-check-label" for="luxury">
-                                                <img src="{{ asset('theme/images/dashboard/car-4.png') }}" alt="Car">
-                                            </label>
-                                            <div class="car-details">
-                                                <h4>Estate</h4>
-                                                <small>(4 people + 2 large cases + 4 small cases)</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-check form-check-inline text-left align-items-start">
-                                            <input class="form-check-input" type="radio" name="vehicle_type" id="tourist" value="6 Seater">
-                                            <label class="form-check-label" for="tourist">
-                                                <img src="{{ asset('theme/images/dashboard/car-5.png') }}" alt="Car">
-                                            </label>
-                                            <div class="car-details">
-                                                <h4>6 Seater</h4>
-                                                <small>(6 people + 4 large cases + 8 small cases)</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <span class="error">
-                                            <strong></strong>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <h2>Car Capacity</h2>
+            <div class="row">
+                <div class="col-md-10 m-auto">
+                    <div class="booking-form">
                         <div class="row">
-                            <div class="col-4">
-                                <div class="car-capacity">
-                                    <div class="form-group">
-                                        <label for="passenger">Passengers</label>
-                                        <input type="text" id="passengers" class="form-control validate" name="passengers" autocomplete="off">
-                                        <span class="error">
-                                            <strong></strong>
-                                        </span>
-                                    </div>
+                            <div class="col-12 text-center">
+                                <h3 class="mb-5">Get a Quote</h3>
+                            </div>
+                            <div class="col-lg-12 d-none">
+                                <div class="ride-map-area">
+                                    <div id="ride-map"></div>
                                 </div>
                             </div>
-                            <div class="col-4">
-                                <div class="car-capacity">
-                                    <div class="form-group">
-                                        <label for="large_cases">Large Cases</label>
-                                        <input type="text" id="large_cases" class="form-control validate" name="large_cases" autocomplete="off">
-                                        <span class="error">
-                                            <strong></strong>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="car-capacity">
-                                    <div class="form-group">
-                                        <label for="small_cases">Small Cases</label>
-                                        <input type="text" id="small_cases" class="form-control validate" name="small_cases" autocomplete="off">
-                                        <span class="error">
-                                            <strong></strong>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="payment-options-wrapper">
-                            <h2>Payment Method</h2>
-                            <label for="payment">Select Any One</label>
-                            <div class="form-group mb-4">
-                                <div class="payment-options mb-0">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="payment_method" id="cash-pay" value="1">
-                                        <label class="form-check-label" for="cash-pay">Cash in Car</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="payment_method" id="banking-pay" value="2">
-                                        <label class="form-check-label" for="banking-pay">Card in Car</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="payment_method" id="card-pay" value="3">
-                                        <label class="form-check-label" for="card-pay">Pay Online(Stripe)</label>
-                                    </div>
-                                </div>
-
-                                <div>
+                            <div class="col-12">
+                                <div class="distance-error">
                                     <span class="error">
                                         <strong></strong>
                                     </span>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                        <h2>Contact</h2>
-                        <div class="contact">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-12">
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-group mb-0">
+                                    <div class="destination">
+                                        <label for="">Pickup Location</label>
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <input type="text" name="from_location" placeholder="Select Desgination" id="spoint" value="" class="form-control validate" autocomplete="off">
+                                        <input type="hidden" id="slat" name="slat" checkHide="true" required="">
+                                        <input type="hidden" id="slon" name="slon" checkHide="true" required="">
+                                    </div>
+        
+                                    <span class="error">
+                                        <strong></strong>
+                                    </span>
+                                </div>
+                                <div class="dropdown position-relative">
+                                    <p>Choose <a href="javascript:;" class="dropdown-link" data-target="airport-pickup">airport <i class="fas fa-chevron-down" style="font-size: 10px;"></i></a> or <a href="javascript:;" class="dropdown-link" data-target="cruise-pickup">cruise <i class="fas fa-chevron-down" style="font-size: 10px;"></i></a> terminal</p>
+                                    <div class="menu-dropdown pickup" id="airport-pickup">
+                                        <ul>
+                                            @foreach (airportTerminal() as $item)
+                                                <li data-lat="{{ $item->lat }}" data-long="{{ $item->long }}" data-type="1">{{ $item->name }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                    <div class="menu-dropdown pickup" id="cruise-pickup">
+                                        <ul>
+                                            @foreach (cruiseTerminal() as $item)
+                                                <li data-lat="{{ $item->lat }}" data-long="{{ $item->long }}" data-type="2">{{ $item->name }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="extra-fields airport-extra" style="display: none;">
                                     <div class="form-group">
-                                        <label for="phone">Phone Number</label>
-                                        <input type="text" id="phone" class="form-control validate" name="phone" autocomplete="off">
+                                        <label for="flight_no">Flight Number</label>
+                                        <input type="text" class="form-control" name="flight_no" id="flight_no" autocomplete="off">
+                                        <span class="error">
+                                            <strong></strong>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="arrival_from">Arrival From</label>
+                                        <input type="text" class="form-control" name="arrival_from" id="arrival_from" autocomplete="off">
+                                        <span class="error">
+                                            <strong></strong>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="airline">Airline</label>
+                                        <input type="text" class="form-control" name="airline" id="airline" autocomplete="off">
+                                        <span class="error">
+                                            <strong></strong>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="meeting_point">Meeting Point</label>
+                                        <select name="meeting_point" id="meeting_point" class="form-control">
+                                            <option value="" selected>Select an option</option>
+                                            <option value="at arrivals with a name board">at arrivals with a name board</option>
+                                        </select>
                                         <span class="error">
                                             <strong></strong>
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="name">Name</label>
-                                        <input type="text" id="name" class="form-control validate" name="name" autocomplete="off">
-                                        <span class="error">
-                                            <strong></strong>
-                                        </span>
+        
+                                <div class="form-group extra-fields cruise-extra" style="display: none;">
+                                    <label for="ship_name">Ship Name</label>
+                                    <input type="text" class="form-control" name="ship_name" id="ship_name" value="" autocomplete="off">
+                                    <span class="error">
+                                        <strong></strong>
+                                    </span>
+                                </div>
+                            </div>
+        
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-group mb-0">
+                                    <div class="destination">
+                                        <label for="">Where to?</label>
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <input type="text" name="to_location" placeholder="Select Desgination" id="epoint" class="form-control validate" autocomplete="off">
+                                        <input type="hidden" id="elat" name="elat" checkHide="true" required="">
+                                        <input type="hidden" id="elon" name="elon" checkHide="true" required="">
+                                    </div>
+        
+                                    <span class="error">
+                                        <strong></strong>
+                                    </span>
+                                </div>
+                                <div class="dropdown position-relative">
+                                    <p>Choose <a href="javascript:;" class="dropdown-link" data-target="airport-destination">airport <i class="fas fa-chevron-down" style="font-size: 10px;"></i></a> or <a href="javascript:;" class="dropdown-link" data-target="cruise-destination">cruise <i class="fas fa-chevron-down" style="font-size: 10px;"></i></a> terminal</p>
+                                    <div class="menu-dropdown dropoff" id="airport-destination">
+                                        <ul>
+                                            @foreach (airportTerminal() as $item)
+                                                <li data-lat="{{ $item->lat }}" data-long="{{ $item->long }}">{{ $item->name }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                    <div class="menu-dropdown dropoff" id="cruise-destination">
+                                        <ul>
+                                            @foreach (cruiseTerminal() as $item)
+                                                <li data-lat="{{ $item->lat }}" data-long="{{ $item->long }}">{{ $item->name }}</li>
+                                            @endforeach
+                                        </ul>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input type="email" id="email" class="form-control validate" name="email" autocomplete="off">
+                            </div>
+        
+                            <div class="col-lg-6 col-md-6 col-sm-12 mt-sm-3">
+                                <h2>Direction</h2>
+                                <label for="direction">Select direction</label>
+                                <div class="form-group mb-3">
+                                    <div class="direction-options mb-0">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="direction" id="direction-oneway" value="1" checked>
+                                            <label class="form-check-label" for="direction-oneway"><i class="fas fa-long-arrow-alt-right"></i> One Way</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="direction" id="direction-twoway" value="2">
+                                            <label class="form-check-label" for="direction-twoway"><i class="fas fa-exchange-alt"></i> Two Way</label>
+                                        </div>
+                                    </div>
+                                    <div>
                                         <span class="error">
                                             <strong></strong>
                                         </span>
                                     </div>
                                 </div>
                             </div>
+        
+                            <div class="col-lg-6 col-md-6 col-sm-12 mt-sm-3">
+                                <h2>Date</h2>
+                                <div class="date-error">
+                                    <span class="error">
+                                        <strong></strong>
+                                    </span>
+                                </div>
+                                <div class="pickup-block">
+                                    <label for="date-time">Pickup Date & Time</label>
+                                    <div class="form-group mb-2">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <input type="text" class="form-control datepicker" id="pickup_date" name="pickup_date" value="{{ now()->format('m/d/Y') }}" autocomplete="off" readonly>
+                                                <span class="error">
+                                                    <strong></strong>
+                                                </span>
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="text" class="form-control timepicker" id="pickup_time" name="pickup_time" autocomplete="off" readonly>
+                                                <span class="error">
+                                                    <strong></strong>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+        
+                                <div class="return-block" style="display: none;">
+                                    <label for="date-time">Return Date & Time</label>
+                                    <div class="form-group mb-2">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <input type="text" class="form-control datepicker" id="return_date" name="return_date" value="{{ now()->format('m/d/Y') }}" autocomplete="off" readonly>
+                                                <span class="error">
+                                                    <strong></strong>
+                                                </span>
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="text" class="form-control timepicker" id="return_time" name="return_time" autocomplete="off" readonly>
+                                                <span class="error">
+                                                    <strong></strong>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+        
+                                <div class="select-car-wrapper mb-3">
+                                    <h2>Services</h2>
+                                    <div class="selected-car">
+                                        <div class="form-group">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" id="alto" name="vehicle_type" value="Saloon">
+                                                <label class="custom-control-label" for="alto">Saloon <small>(4 people + 2 large cases + 2 small cases)</small></label>
+                                            </div>
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" id="luxury" name="vehicle_type" value="Estate">
+                                                <label class="custom-control-label" for="luxury">Estate <small>(4 people + 2 large cases + 4 small cases)</small></label>
+                                            </div>
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" id="tourist" name="vehicle_type" value="6 Seater">
+                                                <label class="custom-control-label" for="tourist">6 Seater <small>(6 people + 4 large cases + 8 small cases)</small></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <h2>Car Capacity</h2>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="car-capacity">
+                                            <div class="form-group">
+                                                <label for="passenger">Passengers</label>
+                                                <input type="text" id="passengers" class="form-control validate" name="passengers" autocomplete="off">
+                                                <span class="error">
+                                                    <strong></strong>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="car-capacity">
+                                            <div class="form-group">
+                                                <label for="large_cases">Large Cases</label>
+                                                <input type="text" id="large_cases" class="form-control validate" name="large_cases" autocomplete="off">
+                                                <span class="error">
+                                                    <strong></strong>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="car-capacity">
+                                            <div class="form-group">
+                                                <label for="small_cases">Small Cases</label>
+                                                <input type="text" id="small_cases" class="form-control validate" name="small_cases" autocomplete="off">
+                                                <span class="error">
+                                                    <strong></strong>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="payment-options-wrapper">
+                                    <h2>Payment Method</h2>
+                                    <label for="payment">Select Any One</label>
+                                    <div class="form-group mb-4">
+                                        <div class="payment-options mb-0">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="payment_method" id="cash-pay" value="1">
+                                                <label class="form-check-label" for="cash-pay">Cash in Car</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="payment_method" id="banking-pay" value="2">
+                                                <label class="form-check-label" for="banking-pay">Card in Car</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="payment_method" id="card-pay" value="3">
+                                                <label class="form-check-label" for="card-pay">Pay Online(Stripe)</label>
+                                            </div>
+                                        </div>
+        
+                                        <div>
+                                            <span class="error">
+                                                <strong></strong>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <h2>Contact</h2>
+                                <div class="contact">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label for="phone">Phone Number</label>
+                                                <input type="text" id="phone" class="form-control validate" name="phone" autocomplete="off">
+                                                <span class="error">
+                                                    <strong></strong>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label for="name">Name</label>
+                                                <input type="text" id="name" class="form-control validate" name="name" autocomplete="off">
+                                                <span class="error">
+                                                    <strong></strong>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label for="email">Email</label>
+                                                <input type="email" id="email" class="form-control validate" name="email" autocomplete="off">
+                                                <span class="error">
+                                                    <strong></strong>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="instruction">Any Instruction</label>
+                                    <textarea name="instruction" id="instruction" class="form-control" rows="5"></textarea>
+                                    <span class="error">
+                                        <strong></strong>
+                                    </span>
+                                </div>
+                            </div>
+        
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <h2>Estimated Fare Amount</h2>
+                                <div class="form-group">
+                                    <div id="results"></div>
+                                </div>
+                            </div>
+        
+                            <div class="col-lg-12">
+                                <button type="button" class="button button-dark tiny book-now">Book Now</button>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="form-group">
-                            <label for="instruction">Any Instruction</label>
-                            <textarea name="instruction" id="instruction" class="form-control" rows="5"></textarea>
-                            <span class="error">
-                                <strong></strong>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                        <h2>Estimated Fare Amount</h2>
-                        <div class="form-group">
-                            <div id="results"></div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-12">
-                        <button type="button" class="button button-dark tiny book-now">Book Now</button>
                     </div>
                 </div>
             </div>
@@ -394,68 +373,67 @@
     </div>
 </section>
 
-<section class="section-padding how-work-area">
+<section class="section-padding how-work-area icons-section ">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 offset-lg-3">
-                <h2 class="section-title text-center">How It Work</h2>
+                <h2 class="section-title text-center">Cheap Southampton Taxis <br> We are always ready to pick you up - 24/7</h2>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-lg-12 d-none d-lg-block">
-                <div class="icons-section">
-                    <div class="single-icon">
-                        <img src="{{ asset('theme/images/icon/4.png') }}" alt="">
-                    </div>
-                    <div class="single-icon">
-                        <img src="{{ asset('theme/images/icon/2.png') }}" alt="">
-                    </div>
-                    <div class="single-icon">
-                        <img src="{{ asset('theme/images/icon/3.png') }}" alt="">
-                    </div>
-                    <div class="single-icon">
-                        <img src="{{ asset('theme/images/icon/1.png') }}" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-icon text-center m-b-10 d-block d-lg-none">
+            <div class="col-lg-4 col-sm-6 mb-3">
+                <div class="single-icon text-center m-b-10 d-block m-auto">
                     <img src="{{ asset('theme/images/icon/4.png') }}" alt="">
                 </div>
                 <div class="how-work-text">
-                    <h4>Enter your location</h4>
-                    <p>Curabitur ac quam aliquam urna vehicula semper sed vel elit. Sed et leo purus. Vivamus vitae sapien.</p>
+                    <h4>Enter your Pick & Drop Location</h4>
+                    <p>Select your pick-up and drop-off locations, time, date and other trip details. Our handly quote engine makes planning your journey breeze</p>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-icon text-center m-b-10 d-block d-lg-none">
+            <div class="col-lg-4 col-sm-6 mb-3">
+                <div class="single-icon text-center m-b-10 d-block m-auto">
                     <img src="{{ asset('theme/images/icon/2.png') }}" alt="">
                 </div>
                 <div class="how-work-text">
                     <h4>Complete Trip Information</h4>
-                    <p>Curabitur ac quam aliquam urna vehicula semper sed vel elit. Sed et leo purus. Vivamus vitae sapien.</p>
+                    <p>Our Easy-to-use Booking tool will give accurate trip details instantly. We'll provide you with the best taxi type to match your budget and travel needs</p>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-icon text-center m-b-10 d-block d-lg-none">
+            <div class="col-lg-4 col-sm-6 mb-3">
+                <div class="single-icon text-center m-b-10 d-block m-auto">
                     <img src="{{ asset('theme/images/icon/3.png') }}" alt="">
                 </div>
                 <div class="how-work-text">
                     <h4>Book A Taxi in Minutes</h4>
-                    <p>Curabitur ac quam aliquam urna vehicula semper sed vel elit. Sed et leo purus. Vivamus vitae sapien.</p>
+                    <p>We'll confirm your booking via email. We accept just about any payment option including Cash in Car, Card in Car payments</p>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-icon text-center m-b-10 d-block d-lg-none">
+            <div class="col-lg-4 col-sm-6 mb-3">
+                <div class="single-icon text-center m-b-10 d-block m-auto">
+                    <img src="{{ asset('theme/images/icon/3.png') }}" alt="">
+                </div>
+                <div class="how-work-text">
+                    <h4>Advance Booking</h4>
+                    <p>Book on demand, or schedule for your future</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 mb-3">
+                <div class="single-icon text-center m-b-10 d-block m-auto">
+                    <img src="{{ asset('theme/images/icon/3.png') }}" alt="">
+                </div>
+                <div class="how-work-text">
+                    <h4>Multi Services</h4>
+                    <p>We Provide Every day taxi, Airport Transport</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 mb-3">
+                <div class="single-icon text-center m-b-10 d-block m-auto">
                     <img src="{{ asset('theme/images/icon/1.png') }}" alt="">
                 </div>
                 <div class="how-work-text">
                     <h4>Easy Payment Options</h4>
-                    <p>Curabitur ac quam aliquam urna vehicula semper sed vel elit. Sed et leo purus. Vivamus vitae sapien.</p>
+                    <p>We provide a secure card payment or cash in the cab with no extra charges.</p>
                 </div>
             </div>
         </div>
@@ -465,11 +443,19 @@
 <section class="bg-2 section-padding">
     <div class="container">
         <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="section-title  text-center">Know More About Us</h1>
+            </div>
             <div class="col-lg-6">
-                <h2 class="section-title">About us</h2>
                 <div class="about-us-text">
-                    <h4>Trusted Cab Services in All World</h4>
-                    <p>Curabitur placerat cursus nisi nec pharetra. Proin quis tortor fringilla, placerat nisi nec, auctor ex. Donec commodo orci ac lectus mattis, sed interdum sem scelerisque. Vivamus at euismod magna. Aenean semper risus nec dolor bibendum cursus. Donec eu odio eu ligula sagittis fringilla. Phasellus vulputate velit eu vehicula auctor. Nam vel pellentesque libero. Duis eget efficitur dui. Mauris tempor ex non tortor aliquet, et interdum mi dapibus. Phasellus ac dui nunc. Sed quis sagittis lorem, in blandit nibh.</p>
+                    <h2>Welcome To Cheap Southampton Taxi</h2>
+                    <p>Southampton Taxi is Southampton based Taxi company providing 24/7 local taxi hire and airport transfer services
+                        to all UK. We welcome local and long distance bookings. Executive cars are available on request. Please book in
+                        advance to ensure availability. All drivers at Southampton Taxis are fully trained. DBS checked and licensed by
+                        Southampton City Council. At Southampton Taxis, we are committed to make your daily journeys smoother and safer.
+                        If you need a private hire for any distance, transfer or event we are on call 24/7 to get you where you need to
+                        be in comfort and safety. Feel Free to contact for hiring taxis for pleasure journey.
+                    </p>
                 </div>
             </div>
             <div class="col-lg-6">
@@ -482,7 +468,7 @@
 </section>
 @endsection
 @section('js')
-    <script src="{{ asset('theme/js/map-script.js') }}"></script>
+    <script src="{{ asset('theme/js/map-script.js?v1.1') }}"></script>
     <script>
         function validateFields() {
             $(".validate").each(function (index, element) {

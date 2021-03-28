@@ -5,10 +5,19 @@ use App\Models\Terminal;
 use App\Models\Setting;
 use App\Models\Booking;
 use App\Models\Faq;
+use App\Models\User;
 
 function setting($key) {
     $setting = Setting::pluck('value', 'name');
     return $setting[$key] ?? '';
+}
+
+function adminEmail() {
+    return User::whereRole('admin')->first()->email;
+}
+
+function adminName() {
+    return User::whereRole('admin')->first()->name;
 }
 
 function airportTerminal() {

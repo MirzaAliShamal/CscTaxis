@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
 
+
 Route::get('/', 'HomeController@home')->name('home');
 Route::get('/private-tours', 'HomeController@privateTours')->name('private.tours');
 Route::get('/everyday-taxi', 'HomeController@everydayTaxi')->name('everyday.taxi');
@@ -39,6 +40,7 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->middleware('auth', '
     Route::get('enquiries', 'DashboardController@enquiries')->name('enquiries');
     Route::post('general-update', 'DashboardController@generalUpdate')->name('general.update');
     Route::post('pass-update', 'DashboardController@passUpdate')->name('pass.update');
+    Route::get('settings', 'SettingController@settings')->name('setting');
     Route::post('setting-save', 'SettingController@save')->name('setting.save');
 
     Route::get('transaction', 'DashboardController@transaction')->name('transaction');

@@ -13,9 +13,6 @@ var smarker = null;
 var emarker = null;
 var stopmarker = null;
 var distance = null;
-var base_fare = 4;
-var rate = 1.6;
-var miles_limit = 4829;
 var map;
 
 var directionDisplay;
@@ -238,9 +235,8 @@ function calculateDistance(origin, destination) {
                         var fare = base_fare;
                         $(".distance-error .error strong").html("For Short Trips Please Call on this number +44 23 8022 2555");
                     } else {
-                        var extra_miles = (element.distance.value - miles_limit) / 1609;
-                        var extra_rate = extra_miles * rate;
-                        var fare = base_fare + extra_rate;
+                        var init_fare = (element.distance.value * rate) / 1609;
+                        var fare = parseInt(init_fare) + parseInt(base_fare);
                         $(".distance-error .error strong").html("");
                     }
                     duration_text = element.duration.text;

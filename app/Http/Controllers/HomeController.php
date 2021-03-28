@@ -97,9 +97,18 @@ class HomeController extends Controller
                 'action' => 'submit',
             ];
 
-            $job = (new SendQueueEmail($details))->delay(now()->addSeconds(2));
+            // $job = (new SendQueueEmail($details))->delay(now()->addSeconds(2));
 
-            dispatch($job);
+            // dispatch($job);.
+            
+            Mail::send('email.booking', get_defined_vars(), function ($message) use($book) {
+                $message->to($book->email, $book->name);
+                $message->subject('Booking ID: '.$book->uuid.' request submitted');
+            });
+            Mail::send('email.admin.booking', get_defined_vars(), function ($message) use($book) {
+                $message->to(adminEmail(), adminName());
+                $message->subject('Booking ID: '.$book->uuid.' request submitted');
+            });
 
             return redirect()->route('thankyou');
         }
@@ -157,9 +166,18 @@ class HomeController extends Controller
                     'action' => 'submit',
                 ];
 
-                $job = (new SendQueueEmail($details))->delay(now()->addSeconds(2));
+                // $job = (new SendQueueEmail($details))->delay(now()->addSeconds(2));
 
-                dispatch($job);
+                // dispatch($job);
+                
+                Mail::send('email.booking', get_defined_vars(), function ($message) use($book) {
+                    $message->to($book->email, $book->name);
+                    $message->subject('Booking ID: '.$book->uuid.' request submitted');
+                });
+                Mail::send('email.admin.booking', get_defined_vars(), function ($message) use($book) {
+                    $message->to(adminEmail(), adminName());
+                    $message->subject('Booking ID: '.$book->uuid.' request submitted');
+                });
 
                 session()->forget('booking');
             }

@@ -35,6 +35,7 @@ class SendQueueEmail implements ShouldQueue
      */
     public function handle()
     {
+        \Log::info("hello");
         $id = $this->details['id'];
         $action = $this->details['action'];
 
@@ -45,9 +46,17 @@ class SendQueueEmail implements ShouldQueue
                 $message->to($book->email, $book->name);
                 $message->subject('Booking ID: '.$book->uuid.' request submitted');
             });
+            Mail::send('email.admin.booking', get_defined_vars(), function ($message) use($book) {
+                $message->to(adminEmail(), adminName());
+                $message->subject('Booking ID: '.$book->uuid.' request submitted');
+            });
         } else if ($action == "accept") {
             Mail::send('email.booking_accept', get_defined_vars(), function ($message) use($book) {
                 $message->to($book->email, $book->name);
+                $message->subject('Booking ID: '.$book->uuid.' booking accepted');
+            });
+            Mail::send('email.admin.booking_accept', get_defined_vars(), function ($message) use($book) {
+                $message->to(adminEmail(), adminName());
                 $message->subject('Booking ID: '.$book->uuid.' booking accepted');
             });
         } else if ($action == "complete") {
@@ -55,9 +64,17 @@ class SendQueueEmail implements ShouldQueue
                 $message->to($book->email, $book->name);
                 $message->subject('Booking ID: '.$book->uuid.' booking completed');
             });
+            Mail::send('email.admin.booking_complete', get_defined_vars(), function ($message) use($book) {
+                $message->to(adminEmail(), adminName());
+                $message->subject('Booking ID: '.$book->uuid.' booking completed');
+            });
         } else if ($action == "decline") {
             Mail::send('email.booking_cancel', get_defined_vars(), function ($message) use($book) {
                 $message->to($book->email, $book->name);
+                $message->subject('Booking ID: '.$book->uuid.' booking cancelled');
+            });
+            Mail::send('email.admin.booking_cancel', get_defined_vars(), function ($message) use($book) {
+                $message->to(adminEmail(), adminName());
                 $message->subject('Booking ID: '.$book->uuid.' booking cancelled');
             });
         }

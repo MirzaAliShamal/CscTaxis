@@ -111,6 +111,16 @@
 
             </td>
         </tr>
+
+        <tr>
+            <td align="left" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%; font-size: 17px; font-weight: 400; line-height: 160%;
+              padding-top: 30px;
+              color: #000;
+              font-family: sans-serif; justify-content: center;" class="paragraph">
+
+                <div style="padding-bottom: 5px;">Estimated Fare: <strong style="color: #000;font-size: 18px;">£ {{ $book->fare }}</strong></div>
+            </td>
+        </tr>
         <tr>
           <td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; padding-left: 6.25%; padding-right: 6.25%; width: 87.5%;
             padding-top: 25px;

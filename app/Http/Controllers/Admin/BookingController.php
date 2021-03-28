@@ -14,16 +14,19 @@ class BookingController extends Controller
     public function list($status = null)
     {
         if (is_null($status)) {
-            $list = Booking::all();
+            $list = Booking::orderBy("id", "DESC")->get();
             return view('admin.booking.list', get_defined_vars());
+        } else if ($status == "pending") {
+            $list = Booking::where('status', '0')->orderBy("id", "DESC")->get();
+            return view('admin.booking.pending', get_defined_vars());
         } else if ($status == "active") {
-            $list = Booking::where('status', '1')->get();
+            $list = Booking::where('status', '1')->orderBy("id", "DESC")->get();
             return view('admin.booking.active', get_defined_vars());
         } else if ($status == "completed") {
-            $list = Booking::where('status', '2')->get();
+            $list = Booking::where('status', '2')->orderBy("id", "DESC")->get();
             return view('admin.booking.completed', get_defined_vars());
         } else if ($status == "cancelled") {
-            $list = Booking::where('status', '3')->get();
+            $list = Booking::where('status', '3')->orderBy("id", "DESC")->get();
             return view('admin.booking.cancelled', get_defined_vars());
         }
     }
@@ -48,9 +51,18 @@ class BookingController extends Controller
                 'action' => 'accept',
             ];
 
-            $job = (new SendQueueEmail($details))->delay(now()->addSeconds(2));
+            // $job = (new SendQueueEmail($details))->delay(now()->addSeconds(2));
 
-            dispatch($job);
+            // dispatch($job);
+            
+            Mail::send('email.booking_accept', get_defined_vars(), function ($message) use($book) {
+                $message->to($book->email, $book->name);
+                $message->subject('Booking ID: '.$book->uuid.' booking accepted');
+            });
+            Mail::send('email.admin.booking_accept', get_defined_vars(), function ($message) use($book) {
+                $message->to(adminEmail(), adminName());
+                $message->subject('Booking ID: '.$book->uuid.' booking accepted');
+            });
         }
 
         if ($action == "complete") {
@@ -62,9 +74,18 @@ class BookingController extends Controller
                 'action' => 'complete',
             ];
 
-            $job = (new SendQueueEmail($details))->delay(now()->addSeconds(2));
+            // $job = (new SendQueueEmail($details))->delay(now()->addSeconds(2));
 
-            dispatch($job);
+            // dispatch($job);
+            
+            Mail::send('email.booking_complete', get_defined_vars(), function ($message) use($book) {
+                $message->to($book->email, $book->name);
+                $message->subject('Booking ID: '.$book->uuid.' booking completed');
+            });
+            Mail::send('email.admin.booking_complete', get_defined_vars(), function ($message) use($book) {
+                $message->to(adminEmail(), adminName());
+                $message->subject('Booking ID: '.$book->uuid.' booking completed');
+            });
         }
 
         if ($action == "decline") {
@@ -93,9 +114,18 @@ class BookingController extends Controller
                 'action' => 'decline',
             ];
 
-            $job = (new SendQueueEmail($details))->delay(now()->addSeconds(2));
+            // $job = (new SendQueueEmail($details))->delay(now()->addSeconds(2));
 
-            dispatch($job);
+            // dispatch($job);
+            
+            Mail::send('email.booking_cancel', get_defined_vars(), function ($message) use($book) {
+                $message->to($book->email, $book->name);
+                $message->subject('Booking ID: '.$book->uuid.' booking cancelled');
+            });
+            Mail::send('email.admin.booking_cancel', get_defined_vars(), function ($message) use($book) {
+                $message->to(adminEmail(), adminName());
+                $message->subject('Booking ID: '.$book->uuid.' booking cancelled');
+            });
         }
 
         return redirect()->back()->with('success', 'Booking Status Changed Successfully!');

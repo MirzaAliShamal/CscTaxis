@@ -8,6 +8,11 @@ use App\Models\Setting;
 
 class SettingController extends Controller
 {
+    public function settings()
+    {
+        return view('admin.setting', get_defined_vars());
+    }
+
     public function save(Request $req)
     {
         foreach ($req->except('_token') as $key => $value) {

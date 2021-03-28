@@ -137,6 +137,12 @@
                     <p> Contact Enquiries </p>
                 </a>
             </li>
+            <li class="nav-item @routeis('admin.setting') active @endrouteis">
+                <a class="nav-link" href="{{ route('admin.setting') }}">
+                    <i class="material-icons">settings</i>
+                    <p> Settings </p>
+                </a>
+            </li>
             {{-- Logout --}}
             <li class="nav-item">
                 <a class="nav-link" href="javascript:;" onclick="document.getElementById('logout-form').submit()">

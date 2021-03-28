@@ -1277,7 +1277,7 @@ textarea.form-control {
 .header__upper--right .navigation a {
   display: block;
   color: #3B3B3B;
-  padding: 11px 13px;
+  padding: 11px 8px;
   transition: all 0.1s;
 }
 .header__upper--right .navigation a:hover {

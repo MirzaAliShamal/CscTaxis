@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="{{ asset('theme/plugins/OwlCarousel/owl.carousel.min.css') }}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css">
-        <link rel="stylesheet" href="{{ asset('theme/css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('theme/css/style.css?v1.2') }}">
         <style>
             .from-group {
                 margin-bottom: 30px;
@@ -53,6 +53,32 @@
                 color: var(--site-color) !important;
                 cursor: pointer;
             }
+            .whatsapp-float{
+            	position:fixed;
+            	display:inline-block;
+            	width:60px;
+            	height:60px;
+            	line-height:60px;
+            	bottom:30px;
+            	right:30px;
+            	background-color:#25d366;
+            	color:#FFF;
+            	border-radius:50px;
+            	text-align:center;
+                font-size:30px;
+            	box-shadow: 2px 2px 3px #999;
+                z-index:100;
+            }
+            .whatsapp-float:hover{
+                color: #FFF;
+            }
+            
+            .my-float{
+            	/*margin-top:16px;*/
+            }
+            .bg-2 {
+                background-color: #e7e7e7;
+            }
         </style>
         @yield('css')
     </head>
@@ -63,6 +89,10 @@
         @yield('content')
 
         @include('front.components.footer')
+        
+        <a href="https://api.whatsapp.com/send?phone=+447476921237&text=Hello" class="whatsapp-float" target="_blank">
+            <i class="fab fa-whatsapp my-float"></i>
+        </a>
 
         <!-- jQuery -->
         <script src="{{ asset('theme/plugins/common/common.min.js') }}"></script>
@@ -79,6 +109,11 @@
         <script src="{{ asset('theme/js/scripts.js') }}"></script>
 
         <script>
+            var base_fare = <?php echo setting('base_fare'); ?>;
+            var rate = <?php echo setting('fare_rate'); ?>;
+            var miles_limit = (<?php echo setting('miles_limit'); ?> * 1609);
+
+
             $('.datepicker').datepicker({
                 startDate: new Date(),
                 autoclose: true,

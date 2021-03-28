@@ -13,12 +13,15 @@
 </section>
 
 <section class="section-padding our-vehicles-section">
-    <div class="booking-form">
+    <div class="container">
         <form action="{{ route('book') }}" class="form-booking" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="fare" id="fare" value="">
-            <div class="container">
+            <div class="booking-form">
                 <div class="row">
+                    <div class="col-12 text-center">
+                        <h3 class="mb-5">Get a Quote</h3>
+                    </div>
                     <div class="col-lg-12 d-none">
                         <div class="ride-map-area">
                             <div id="ride-map"></div>
@@ -95,6 +98,7 @@
                                 </span>
                             </div>
                         </div>
+
                         <div class="form-group extra-fields cruise-extra" style="display: none;">
                             <label for="ship_name">Ship Name</label>
                             <input type="text" class="form-control" name="ship_name" id="ship_name" value="" autocomplete="off">
@@ -203,49 +207,23 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
 
                         <div class="select-car-wrapper mb-5">
                             <h2>Services</h2>
                             <div class="selected-car">
-                                <div class="form-group row car-options">
-                                    <div class="col-md-4">
-                                        <div class="form-check form-check-inline text-left align-items-start">
-                                            <input class="form-check-input" type="radio" name="vehicle_type" id="alto" value="Saloon">
-                                            <label class="form-check-label" for="alto">
-                                                <img src="{{ asset('theme/images/dashboard/car-2.png') }}" alt="Car">
-                                            </label>
-                                            <div class="car-details">
-                                                <h4>Saloon</h4>
-                                            </div>
-                                        </div>
+                                <div class="form-group">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" id="alto" name="vehicle_type" value="Saloon">
+                                        <label class="custom-control-label" for="alto">Saloon <small>(4 people + 2 large cases + 2 small cases)</small></label>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-check form-check-inline text-left align-items-start">
-                                            <input class="form-check-input" type="radio" name="vehicle_type" id="luxury" value="Estate">
-                                            <label class="form-check-label" for="luxury">
-                                                <img src="{{ asset('theme/images/dashboard/car-4.png') }}" alt="Car">
-                                            </label>
-                                            <div class="car-details">
-                                                <h4>Estate</h4>
-                                            </div>
-                                        </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" id="luxury" name="vehicle_type" value="Estate">
+                                        <label class="custom-control-label" for="luxury">Estate <small>(4 people + 2 large cases + 4 small cases)</small></label>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-check form-check-inline text-left align-items-start">
-                                            <input class="form-check-input" type="radio" name="vehicle_type" id="tourist" value="6 Seater">
-                                            <label class="form-check-label" for="tourist">
-                                                <img src="{{ asset('theme/images/dashboard/car-5.png') }}" alt="Car">
-                                            </label>
-                                            <div class="car-details">
-                                                <h4>6 Seater</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <span class="error">
-                                            <strong></strong>
-                                        </span>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" id="tourist" name="vehicle_type" value="6 Seater">
+                                        <label class="custom-control-label" for="tourist">6 Seater <small>(6 people + 4 large cases + 8 small cases)</small></label>
                                     </div>
                                 </div>
                             </div>
@@ -382,7 +360,7 @@
 </section>
 @endsection
 @section('js')
-    <script src="{{ asset('theme/js/map-script.js') }}"></script>
+    <script src="{{ asset('theme/js/map-script.js?v1.1') }}"></script>
     <script>
         function validateFields() {
             $(".validate").each(function (index, element) {
